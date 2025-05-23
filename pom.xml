@@ -45,16 +45,6 @@
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.shell</groupId>
-			<artifactId>spring-shell-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -95,6 +85,29 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>io.github.git-commit-id</groupId>
+				<artifactId>git-commit-id-maven-plugin</artifactId>
+				<version>9.0.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>revision</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<includeOnlyProperties>
+						<includeOnlyProperty>git.branch</includeOnlyProperty>
+						<includeOnlyProperty>git.commit.id</includeOnlyProperty>
+						<includeOnlyProperty>git.commit.id.abbrev</includeOnlyProperty>
+						<includeOnlyProperty>git.commit.time</includeOnlyProperty>
+						<includeOnlyProperty>git.commit.message.short</includeOnlyProperty>
+						<includeOnlyProperty>git.commit.user.name</includeOnlyProperty>
+						<includeOnlyProperty>git.tags</includeOnlyProperty>
+					</includeOnlyProperties>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
