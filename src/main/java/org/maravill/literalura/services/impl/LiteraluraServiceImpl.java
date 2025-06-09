@@ -47,14 +47,23 @@ public class LiteraluraServiceImpl implements ILiteraluraService {
                 %s\t\t\t%s🧭  MENÚ PRINCIPAL - LITERALURA CLI%s
                 %s📚%s📚
                 %s\t %s1️⃣  Buscar libro por título(Api Gutendex)%s
+                %s\t %s\t\t Ejemplo: menu 1 <título del libro>%s
                 %s\t %s2️⃣  Listar libros registrados%s
+                %s\t %s\t\t Ejemplo: menu 2%s
                 %s\t %s3️⃣  Listar autores registrados%s
+                %s\t %s\t\t Ejemplo: menu 3%s
                 %s\t %s4️⃣  Listar autores vivos en un año específico%s
-                %s\t %s5️⃣  Listar libros por idioma%s
+                %s\t %s\t\t Ejemplo: menu 4 <año>%s
+                %s\t %s5️⃣  Listar libros por idioma(en,fr,...)%s
+                %s\t %s\t\t Ejemplo: menu 5 <idioma>%s
                 %s\t %s6️⃣  Listar libros por autor%s
+                %s\t %s\t\t Ejemplo: menu 6 <nombre del autor>%s
                 %s\t %s7️⃣  Listar los diez mejores libros%s
+                %s\t %s\t\t Ejemplo: menu 7%s
                 %s\t %s8️⃣  Datos estadísticos locales%s
+                %s\t %s\t\t Ejemplo: menu 8%s
                 %s\t %s9️⃣  Salir de la aplicación%s
+                %s\t %s\t\t Ejemplo: menu 9%s
                 %s📕%s📕
                 """.formatted(
                 SPACE_MENU, SEPARATOR,
@@ -68,6 +77,15 @@ public class LiteraluraServiceImpl implements ILiteraluraService {
                 SPACE_MENU, GREEN, RESET,
                 SPACE_MENU, GREEN, RESET,
                 SPACE_MENU, GREEN, RESET,
+                SPACE_MENU, GREEN, RESET,
+                SPACE_MENU, GREEN, RESET,
+                SPACE_MENU, GREEN, RESET,
+                SPACE_MENU, GREEN, RESET,
+                SPACE_MENU, GREEN, RESET,
+                SPACE_MENU, GREEN, RESET,
+                SPACE_MENU, GREEN, RESET,
+                SPACE_MENU, GREEN, RESET,
+                SPACE_MENU, RED, RESET,
                 SPACE_MENU, RED, RESET,
                 SPACE_MENU, SEPARATOR
         );
