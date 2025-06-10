@@ -29,10 +29,10 @@ public class LiteraluraServiceImpl implements ILiteraluraService {
     private final IPersonService personService;
     private final ISearchTitleHistoryService searchTitleHistoryService;
 
-    private List<BookDto> allBooks;
-    private List<BookDto> currentBooks;
-    private List<PersonDto> allAuthors;
-    private List<PersonDto> currentAuthors;
+    private List<BookDto> allBooks = new ArrayList<>();
+    private List<BookDto> currentBooks = new ArrayList<>();
+    private List<PersonDto> allAuthors = new ArrayList<>();
+    private List<PersonDto> currentAuthors = new ArrayList<>();
     private int pageBooks = 0;
     private int pageAuthors = 0;
     private int totalBookPages = 0;
@@ -273,8 +273,11 @@ public class LiteraluraServiceImpl implements ILiteraluraService {
 
     @Override
     public String listPageBooks(String args) {
+        if (this.allBooks.isEmpty()) {
+            return RED + "❌ No hay libros registrados. Por favor, lista los libros registrados o haz una búsqueda." + RESET;
+        }
         if (args == null || args.isEmpty()) {
-            return formatBooks(currentBooks, "📖 Libros de la página actual: " + this.pageBooks + " de " + this.totalBookPages, this.pageBooks);
+            return formatBooks(currentBooks, "📖 Libros de la página: " + this.pageBooks + " de " + this.totalBookPages, this.pageBooks);
         }
         try {
             int requestedPage = Integer.parseInt(args.trim());
@@ -344,6 +347,9 @@ public class LiteraluraServiceImpl implements ILiteraluraService {
 
     @Override
     public String listNextBooks() {
+        if (this.allBooks.isEmpty()) {
+            return RED + "❌ No hay libros registrados. Por favor, lista los libros registrados o haz una búsqueda." + RESET;
+        }
         if (pageBooks < totalBookPages) {
             pageBooks++;
             int fromIndex = pageBooks * PAGE_SIZE;
@@ -357,6 +363,9 @@ public class LiteraluraServiceImpl implements ILiteraluraService {
 
     @Override
     public String listPreviousBooks() {
+        if (this.allBooks.isEmpty()) {
+            return RED + "❌ No hay libros registrados. Por favor, lista los libros registrados o haz una búsqueda." + RESET;
+        }
         if (pageBooks > 0) {
             pageBooks--;
             int fromIndex = pageBooks * PAGE_SIZE;
@@ -370,8 +379,11 @@ public class LiteraluraServiceImpl implements ILiteraluraService {
 
     @Override
     public String listPageAuthors(String args) {
+        if (this.allAuthors.isEmpty()) {
+            return RED + "❌ No hay autores registrados. Por favor, lista los autores registrados o haz una búsqueda." + RESET;
+        }
         if (args == null || args.isEmpty()) {
-            return formatAuthors(currentAuthors, "🖋️ Autores de la página actual: " + this.pageAuthors + " de " + this.totalAuthorPages, this.pageAuthors);
+            return formatAuthors(currentAuthors, "🖋️ Autores de la página: " + this.pageAuthors + " de " + this.totalAuthorPages, this.pageAuthors);
         }
         try {
             int requestedPage = Integer.parseInt(args.trim());
@@ -405,6 +417,9 @@ public class LiteraluraServiceImpl implements ILiteraluraService {
 
     @Override
     public String listNextAuthors() {
+        if (this.allAuthors.isEmpty()) {
+            return RED + "❌ No hay autores registrados. Por favor, lista los autores registrados o haz una búsqueda." + RESET;
+        }
         if (pageAuthors < totalAuthorPages) {
             pageAuthors++;
             int fromIndex = pageAuthors * PAGE_SIZE;
@@ -418,6 +433,9 @@ public class LiteraluraServiceImpl implements ILiteraluraService {
 
     @Override
     public String listPreviousAuthors() {
+        if (this.allAuthors.isEmpty()) {
+            return RED + "❌ No hay autores registrados. Por favor, lista los autores registrados o haz una búsqueda." + RESET;
+        }
         if (pageAuthors > 0) {
             pageAuthors--;
             int fromIndex = pageAuthors * PAGE_SIZE;

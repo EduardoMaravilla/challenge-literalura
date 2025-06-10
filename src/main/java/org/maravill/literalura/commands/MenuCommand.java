@@ -17,7 +17,7 @@ public class MenuCommand {
     @Command(command = "", description = "Muestra el menú principal, ejemplo: menu")
     public String showMainMenu(@Option(arity = CommandRegistration.OptionArity.ONE_OR_MORE) String... args) {
         if (args != null && args.length > 0) {
-            return "❌ Comando no reconocidom. Usa 'menu' para ver el menú principal.";
+            return "❌ Comando no reconocido. Usa 'menu' para ver el menú principal.";
         }
         return literaluraService.showMainMenu();
     }
