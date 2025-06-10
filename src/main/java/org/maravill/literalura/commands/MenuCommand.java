@@ -15,7 +15,10 @@ public class MenuCommand {
     }
 
     @Command(command = "", description = "Muestra el menú principal, ejemplo: menu")
-    public String showMainMenu() {
+    public String showMainMenu(@Option(arity = CommandRegistration.OptionArity.ONE_OR_MORE) String... args) {
+        if (args != null && args.length > 0) {
+            return "❌ Comando no reconocidom. Usa 'menu' para ver el menú principal.";
+        }
         return literaluraService.showMainMenu();
     }
 
@@ -76,6 +79,28 @@ public class MenuCommand {
     public void exit() {
         literaluraService.exit();
         System.exit(0);
+    }
+
+    @Command(command = "books", description = "Listar libros por página, ejemplo: menu books <page>")
+    public String listPageBooks(@Option(arity = CommandRegistration.OptionArity.ZERO_OR_ONE) String args) {
+        if (args != null && args.equals("next")) {
+            return literaluraService.listNextBooks();
+        } else if (args != null && args.equals("prev")) {
+            return literaluraService.listPreviousBooks();
+        }else {
+            return literaluraService.listPageBooks(args);
+        }
+    }
+
+    @Command(command = "authors", description = "Listar autores por página, ejemplo: menu authors <page>")
+    public String listPageAuthors(@Option(arity = CommandRegistration.OptionArity.ZERO_OR_ONE) String args) {
+        if (args != null && args.equals("next")) {
+            return literaluraService.listNextAuthors();
+        } else if (args != null && args.equals("prev")) {
+            return literaluraService.listPreviousAuthors();
+        } else {
+            return literaluraService.listPageAuthors(args);
+        }
     }
 
 }

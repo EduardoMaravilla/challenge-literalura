@@ -21,4 +21,11 @@ public interface ILiteraluraService {
     String listTop10Books();
 
     String localStatistics();
+
+    String listPageBooks(String args);
+    String listNextBooks();
+    String listPreviousBooks();
+    String listPageAuthors(String args);
+    String listNextAuthors();
+    String listPreviousAuthors();
 }
