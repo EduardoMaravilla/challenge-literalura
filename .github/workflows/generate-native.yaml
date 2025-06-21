@@ -1,0 +1,25 @@
+name: "Generate Native"
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  generate-linux-native:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: GraalVM
+        uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: '23'
+          distribution: 'graalvm-community'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build native image
+        run: mvn clean -Pnative -DskipTests native:compile
+
+      - name: List build output
+        run: ls -lh target
