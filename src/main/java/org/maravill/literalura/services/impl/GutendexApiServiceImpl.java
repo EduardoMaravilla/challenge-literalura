@@ -98,7 +98,7 @@ public class GutendexApiServiceImpl implements IBooksApiService {
                 return Optional.empty();
             }
             return Optional.of(response.body());
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException | InterruptedException _) {
             Thread.currentThread().interrupt();
         }
         return Optional.empty();
