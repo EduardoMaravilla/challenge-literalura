@@ -87,6 +87,8 @@ public class MenuCommand {
             return literaluraService.listNextBooks();
         } else if (args != null && args.equals("prev")) {
             return literaluraService.listPreviousBooks();
+        }else if (args != null && args.equals("help")){
+            return literaluraService.getCurrentPageBooksHelp();
         }else {
             return literaluraService.listPageBooks(args);
         }
@@ -98,6 +100,8 @@ public class MenuCommand {
             return literaluraService.listNextAuthors();
         } else if (args != null && args.equals("prev")) {
             return literaluraService.listPreviousAuthors();
+        } else if (args != null && args.equals("help")) {
+            return literaluraService.getCurrentPageAuhtorsHelp();
         } else {
             return literaluraService.listPageAuthors(args);
         }

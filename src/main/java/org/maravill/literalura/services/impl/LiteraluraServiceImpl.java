@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class LiteraluraServiceImpl implements ILiteraluraService {
 
-    private static final String SPACE_MENU = "\t".repeat(11);
+    private static final String SPACE_MENU = "\t".repeat(5);
     public static final String RESET = "\u001B[0m";
     public static final String CYAN = "\u001B[36m";
     public static final String YELLOW = "\u001B[33m";
@@ -37,6 +37,8 @@ public class LiteraluraServiceImpl implements ILiteraluraService {
     private int pageAuthors = 0;
     private int totalBookPages = 0;
     private int totalAuthorPages = 0;
+    private String currentTitleBooks = "Literalura CLI";
+    private String currentTitleAuthors = "Autores registrados";
     private static final int PAGE_SIZE = 10;
 
     public LiteraluraServiceImpl(LiteraluraShutdownHook literaluraShutdownHook,
@@ -56,26 +58,17 @@ public class LiteraluraServiceImpl implements ILiteraluraService {
     public String showMainMenu() {
         return """
                 %s📚%s📚
-                %s\t\t\t%s🧭  MENÚ PRINCIPAL - LITERALURA CLI%s
+                %s\t%s  MENÚ PRINCIPAL - LITERALURA CLI%s
                 %s📚%s📚
-                %s\t %s1️⃣  Buscar libro por título(Api Gutendex)%s
-                %s\t %s\t\t Ejemplo: menu 1 <título del libro>%s
-                %s\t %s2️⃣  Listar libros registrados%s
-                %s\t %s\t\t Ejemplo: menu 2%s
-                %s\t %s3️⃣  Listar autores registrados%s
-                %s\t %s\t\t Ejemplo: menu 3%s
-                %s\t %s4️⃣  Listar autores vivos en un año específico%s
-                %s\t %s\t\t Ejemplo: menu 4 <año>%s
-                %s\t %s5️⃣  Listar libros por idioma(en,fr,...)%s
-                %s\t %s\t\t Ejemplo: menu 5 <idioma>%s
-                %s\t %s6️⃣  Listar libros por autor%s
-                %s\t %s\t\t Ejemplo: menu 6 <nombre del autor>%s
-                %s\t %s7️⃣  Listar los 10 mejores libros%s
-                %s\t %s\t\t Ejemplo: menu 7%s
-                %s\t %s8️⃣  Datos estadísticos locales%s
-                %s\t %s\t\t Ejemplo: menu 8%s
-                %s\t %s9️⃣  Salir de la aplicación%s
-                %s\t %s\t\t Ejemplo: menu 9%s
+                %s\t %s1  Buscar libro por título(Api Gutendex)%s
+                %s\t %s2  Listar libros registrados%s
+                %s\t %s3  Listar autores registrados%s
+                %s\t %s4  Listar autores vivos en un año específico%s
+                %s\t %s5  Listar libros por idioma(en,fr,...)%s
+                %s\t %s6  Listar libros por autor%s
+                %s\t %s7  Listar los 10 mejores libros%s
+                %s\t %s8  Datos estadísticos locales%s
+                %s\t %s9  Salir de la aplicación%s
                 %s📕%s📕
                 """.formatted(
                 SPACE_MENU, SEPARATOR,
@@ -89,15 +82,6 @@ public class LiteraluraServiceImpl implements ILiteraluraService {
                 SPACE_MENU, GREEN, RESET,
                 SPACE_MENU, GREEN, RESET,
                 SPACE_MENU, GREEN, RESET,
-                SPACE_MENU, GREEN, RESET,
-                SPACE_MENU, GREEN, RESET,
-                SPACE_MENU, GREEN, RESET,
-                SPACE_MENU, GREEN, RESET,
-                SPACE_MENU, GREEN, RESET,
-                SPACE_MENU, GREEN, RESET,
-                SPACE_MENU, GREEN, RESET,
-                SPACE_MENU, GREEN, RESET,
-                SPACE_MENU, RED, RESET,
                 SPACE_MENU, RED, RESET,
                 SPACE_MENU, SEPARATOR
         );
@@ -124,20 +108,21 @@ public class LiteraluraServiceImpl implements ILiteraluraService {
         }
         this.totalBookPages = (int) Math.floor(allBooks.size() / 10.0);
         this.currentBooks = allBooks.subList(0, Math.min(PAGE_SIZE, allBooks.size()));
+        this.currentTitleBooks = "📖 Libros encontrados para el título: \"" + title + "\"";
         return getMenuBooks("📖 Libros encontrados para el título: \"" + title + "\"");
 
     }
 
     private String getMenuBooks(String title) {
-        return GREEN +
+        return GREEN +"\n\n" +
                 title + "\n\n" +
                 "Total de libros encontrados: " + allBooks.size() + "\n" +
                 "Páginas disponibles: " + (totalBookPages + 1) + " de 0 a " + totalBookPages + "\n\n" +
 
                 "📌 Para ver los libros usa los siguientes comandos:\n" + RESET +
                 YELLOW + "menu books <num>      → Muestra los libros de la página actual o la página que decidas\n" + RESET +
-                YELLOW + "menu books-next       → Muestra los libros de la siguiente página\n" + RESET +
-                YELLOW + "menu books-prev       → Muestra los libros de la página anterior\n\n" +
+                YELLOW + "menu books next       → Muestra los libros de la siguiente página\n" + RESET +
+                YELLOW + "menu books prev       → Muestra los libros de la página anterior\n\n" +
 
                 GREEN + "📚 Opciones de ordenamiento:\n" + RESET +
                 YELLOW + "title-asc             → Ordena por título de A a Z\n" + RESET +
@@ -155,15 +140,15 @@ public class LiteraluraServiceImpl implements ILiteraluraService {
     }
 
     private String getMenuAuthors(String title) {
-        return GREEN +
+        return GREEN + "\n\n" +
                 title + "\n\n" +
                 "Total de autores encontrados: " + allAuthors.size() + "\n" +
                 "Páginas disponibles: " + (totalAuthorPages + 1) + " de 0 a " + totalAuthorPages + "\n\n" +
 
                 "📌 Para ver los autores usa los siguientes comandos:\n" + RESET +
                 YELLOW + "menu authors <num>      → Muestra los autores de la página actual o la página que decidas\n" + RESET +
-                YELLOW + "menu authors-next       → Muestra los autores de la siguiente página\n" + RESET +
-                YELLOW + "menu authors-prev       → Muestra los autores de la página anterior\n\n" +
+                YELLOW + "menu authors next       → Muestra los autores de la siguiente página\n" + RESET +
+                YELLOW + "menu authors prev       → Muestra los autores de la página anterior\n\n" +
                 GREEN + "📚 Opciones de ordenamiento:\n" + RESET +
                 YELLOW + "name-asc               → Ordena por nombre de autor de A a Z\n" + RESET +
                 YELLOW + "name-desc              → Ordena por nombre de autor de Z a A\n\n" +
@@ -182,6 +167,7 @@ public class LiteraluraServiceImpl implements ILiteraluraService {
         }
         this.totalBookPages = (int) Math.floor(allBooks.size() / 10.0);
         this.currentBooks = allBooks.subList(0, Math.min(PAGE_SIZE, allBooks.size()));
+        this.currentTitleBooks = "📖 Libros registrados localmente:";
         return getMenuBooks("📖 Libros registrados localmente:");
     }
 
@@ -194,6 +180,7 @@ public class LiteraluraServiceImpl implements ILiteraluraService {
         this.totalAuthorPages = (int) Math.floor(allAuthors.size() / 10.0);
         this.currentAuthors = allAuthors.subList(0, Math.min(PAGE_SIZE, allAuthors.size()));
         this.pageAuthors = 0;
+        this.currentTitleAuthors = "🖋️ Autores registrados:";
         return getMenuAuthors("🖋️ Autores registrados:");
     }
 
@@ -206,6 +193,7 @@ public class LiteraluraServiceImpl implements ILiteraluraService {
         this.totalAuthorPages = (int) Math.floor(allAuthors.size() / 10.0);
         this.currentAuthors = allAuthors.subList(0, Math.min(PAGE_SIZE, allAuthors.size()));
         this.pageAuthors = 0;
+        this.currentTitleAuthors = "🖋️ Autores vivos en el año " + year + ":";
         return getMenuAuthors("🖋️ Autores vivos en el año " + year + ":");
     }
 
@@ -218,6 +206,7 @@ public class LiteraluraServiceImpl implements ILiteraluraService {
         }
         this.totalBookPages = (int) Math.floor(allBooks.size() / 10.0);
         this.currentBooks = allBooks.subList(0, Math.min(PAGE_SIZE, allBooks.size()));
+        currentTitleBooks = "📖 Libros registrados en el idioma: " + language;
         return getMenuBooks("📖 Libros registrados en el idioma: " + language);
     }
 
@@ -234,6 +223,7 @@ public class LiteraluraServiceImpl implements ILiteraluraService {
         }
         this.totalBookPages = (int) Math.floor(allBooks.size() / 10.0);
         this.currentBooks = allBooks.subList(0, Math.min(PAGE_SIZE, allBooks.size()));
+        currentTitleBooks = "📖 Libros registrados para el autor: " + authorString;
         return getMenuBooks("📖 Libros registrados para el autor: " + authorString);
     }
 
@@ -445,6 +435,16 @@ public class LiteraluraServiceImpl implements ILiteraluraService {
         } else {
             return RED + "❌ No hay páginas anteriores de autores disponibles." + RESET;
         }
+    }
+
+    @Override
+    public String getCurrentPageBooksHelp() {
+        return getMenuBooks(currentTitleBooks);
+    }
+
+    @Override
+    public String getCurrentPageAuhtorsHelp() {
+        return getMenuAuthors(currentTitleAuthors);
     }
 
     private String formatBooks(List<BookDto> books, String header, int currentPage) {

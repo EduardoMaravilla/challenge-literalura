@@ -28,4 +28,8 @@ public interface ILiteraluraService {
     String listPageAuthors(String args);
     String listNextAuthors();
     String listPreviousAuthors();
+
+    String getCurrentPageBooksHelp();
+
+    String getCurrentPageAuhtorsHelp();
 }
