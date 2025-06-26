@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record GutenbergResponse(
+public record GutendexResponse(
         @JsonProperty("count") Long count,
         @JsonProperty("next") String next,
         @JsonProperty("previous") String previous,

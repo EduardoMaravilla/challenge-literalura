@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jline.terminal.Terminal;
 import org.maravill.literalura.dto.BookDto;
-import org.maravill.literalura.dto.GutenbergResponse;
+import org.maravill.literalura.dto.GutendexResponse;
 import org.maravill.literalura.services.IBooksApiService;
 import org.springframework.stereotype.Service;
 
@@ -49,15 +49,15 @@ public class GutendexApiServiceImpl implements IBooksApiService {
             }
 
             try {
-                GutenbergResponse gutenbergResponse = objectMapper.readValue(response.get(), new TypeReference<>() {});
-                allBooks.addAll(gutenbergResponse.results());
+                GutendexResponse gutendexResponse = objectMapper.readValue(response.get(), new TypeReference<>() {});
+                allBooks.addAll(gutendexResponse.results());
 
                 // Imprimir la página actual y cuántos libros lleva acumulados
-                terminal.writer().printf("📘 Página procesada: %s | Libros acumulados: %d de %d%n", uri, allBooks.size(),gutenbergResponse.count());
+                terminal.writer().printf("📘 Página procesada: %s | Libros acumulados: %d de %d%n", uri, allBooks.size(), gutendexResponse.count());
                 terminal.writer().flush();
 
                 // Obtener la siguiente URL
-                uri = gutenbergResponse.next() != null ? URI.create(gutenbergResponse.next()) : null;
+                uri = gutendexResponse.next() != null ? URI.create(gutendexResponse.next()) : null;
 
             } catch (JsonProcessingException e) {
                 terminal.writer().println("❌ Error al procesar la respuesta JSON: " + e.getMessage());
@@ -79,8 +79,8 @@ public class GutendexApiServiceImpl implements IBooksApiService {
         }
 
         try {
-            GutenbergResponse gutenbergResponse = objectMapper.readValue(response.get(), new TypeReference<>() {});
-            return gutenbergResponse.results().stream().limit(10L).toList();
+            GutendexResponse gutendexResponse = objectMapper.readValue(response.get(), new TypeReference<>() {});
+            return gutendexResponse.results().stream().limit(10L).toList();
         } catch (JsonProcessingException e) {
             terminal.writer().println("❌ Error al procesar la respuesta JSON: " + e.getMessage());
             return List.of();
