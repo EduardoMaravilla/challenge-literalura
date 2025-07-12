@@ -122,3 +122,8 @@ Una vez en ejecución, usa el menú interactivo:
   ```bash
   psql -h <HOST> -U <USUARIO> -d <DATABASE>
   ```
+
+---
+
+## Diagrama de la base de datos
+![Diagrama de la base de datos](diagram_literalura.png)
