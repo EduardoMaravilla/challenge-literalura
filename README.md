@@ -8,50 +8,117 @@ Esta herramienta te permite interactuar con la colección de libros clásicos m�
 
 ---
 
-## 🚀 Funcionalidades principales
+## 📋 Instrucciones de uso
 
-- 🔍 **Buscar libros por título** directamente desde la API Gutendex.
-- 📚 **Listar libros registrados localmente**.
-- ✍️ **Listar autores registrados** en tu base local.
-- 📆 **Buscar autores vivos en un año específico**.
-- 🌍 **Filtrar libros por idioma** (por código: `en`, `fr`, `es`, etc.).
-- 👤 **Listar libros por autor** registrado localmente.
-- 📈 **Ver el Top 10 de libros más populares** (según descargas).
-- 📊 **Consultar estadísticas locales** de libros, autores y descargas.
-- ❌ **Salir de la aplicación** fácilmente desde el menú.
+### 🛠️ Requisitos previos
+
+- **Java 23** (JDK)
+- **Maven** (versión 3.6 o superior)
+- **PostgreSQL** (local o en la nube)
+- (Opcional) Herramienta para conectarte a la base de datos, como `psql`, **pgAdmin**, o **TablePlus**.
 
 ---
 
-## 🧭 Menú Principal
+### 🔧 Configuración de la base de datos
 
-```text
-📚──────────────────────────────────────────────
-			🧭  MENÚ PRINCIPAL - LITERALURA CLI
-📚──────────────────────────────────────────────
-     1️⃣  Buscar libro por título (API Gutendex)
-         Ejemplo: menu 1 Orgullo y prejuicio
-         
-     2️⃣  Listar libros registrados
-         Ejemplo: menu 2
-         
-     3️⃣  Listar autores registrados
-         Ejemplo: menu 3
-         
-     4️⃣  Listar autores vivos en un año específico
-         Ejemplo: menu 4 1900
-         
-     5️⃣  Listar libros por idioma (en, fr, es, ...)
-         Ejemplo: menu 5 en
-         
-     6️⃣  Listar libros por autor
-         Ejemplo: menu 6 Jane Austen
-         
-     7️⃣  Listar los 10 mejores libros
-         Ejemplo: menu 7
-         
-     8️⃣  Datos estadísticos locales
-         Ejemplo: menu 8
-         
-     9️⃣  Salir de la aplicación
-         Ejemplo: menu 9
-📕──────────────────────────────────────────────
+1. **Local**:
+
+    - Instala PostgreSQL y crea una base de datos, por ejemplo:
+      ```bash
+      createdb literalura
+      ```
+    - Asegúrate de tener usuario y contraseña válidos (por defecto: `postgres` / `root`, según configuraciones iniciales).
+
+2. **En la nube**:
+
+    - Si usas una instancia en un servicio como ElephantSQL, Railway, Heroku, Amazon RDS, etc., obtén tu cadena de conexión (`URL`), usuario y contraseña.
+    - Reemplaza en el archivo `application.properties` la configuración por los valores de tu instancia remota.
+
+---
+
+### ⚙️ Configuración en `application.properties`
+
+Ubicado en `src/main/resources`, incluye las siguientes propiedades:
+
+```properties
+# Conexión a PostgreSQL
+spring.datasource.url=jdbc:postgresql://<HOST>:<PUERTO>/<DATABASE>
+spring.datasource.username=<USUARIO>
+spring.datasource.password=<PASSWORD>
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+# Habilita Open‑In‑View (ajústalo según tu conveniencia)
+spring.jpa.open-in-view=true
+```
+
+- Para **local**, podrías usar:
+  ```properties
+  spring.datasource.url=jdbc:postgresql://localhost:5432/literalura
+  spring.datasource.username=postgres
+  spring.datasource.password=root
+  ```
+- Para **nube**, adapta `<HOST>`, `<PUERTO>`, `<DATABASE>`, `<USUARIO>` y `<PASSWORD>` según se te haya proporcionado en tu proveedor.
+
+---
+
+### 🧱 Compilar y ejecutar
+
+Desde la raíz del proyecto:
+
+```bash
+# Compilar y descargar dependencias
+mvn clean install
+
+# Ejecutar la aplicación
+mvn spring-boot:run
+```
+
+Asegúrate de que la base de datos esté funcionando antes de iniciar la aplicación.
+
+---
+
+### 🎮 Uso de Literalura CLI
+
+Una vez en ejecución, usa el menú interactivo:
+
+| Opcion | Descripción                               | Ejemplo                      |
+| ------ | ----------------------------------------- | ---------------------------- |
+| 1      | Buscar libro por título (API Gutendex)    | `menu 1 Orgullo y prejuicio` |
+| 2      | Listar libros registrados localmente      | `menu 2`                     |
+| 3      | Listar autores registrados                | `menu 3`                     |
+| 4      | Buscar autores vivos en un año específico | `menu 4 1900`                |
+| 5      | Filtrar libros por idioma                 | `menu 5 en`                  |
+| 6      | Listar libros por autor                   | `menu 6 Jane Austen`         |
+| 7      | Ver top 10 libros por descargas           | `menu 7`                     |
+| 8      | Consultar estadísticas locales            | `menu 8`                     |
+| 9      | Salir de la aplicación                    | `menu 9`                     |
+
+---
+
+### 🤐 Personalización y tips
+
+- Si necesitas cambiar la base de datos (por ejemplo migrar de local a nube), solo edita las propiedades `spring.datasource.*`.
+- Si tienes configuraciones más avanzadas (p. ej., SSL, esquemas, pool de conexiones), puedes añadirlas en `application.properties` o un perfil adicional:
+  ```properties
+  spring.datasource.hikari.maximum-pool-size=10
+  spring.datasource.hikari.connection-timeout=20000
+  spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+  ```
+- Usa Maven profiles para soportar diferentes entornos (dev/prod) con distintos archivos `.properties`.
+
+---
+
+### ✅ Verifica tu entorno
+
+- Comprueba que Java 23 está instalado:
+  ```bash
+  java --version
+  ```
+- Verifica Maven:
+  ```bash
+  mvn -version
+  ```
+- Asegúrate de que tu base de datos esté accesible:
+  ```bash
+  psql -h <HOST> -U <USUARIO> -d <DATABASE>
+  ```

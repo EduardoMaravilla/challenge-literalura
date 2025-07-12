@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.maravill.literalura.models.Bookshelf;
 import org.maravill.literalura.repositories.IBookshelfRepository;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -42,7 +43,8 @@ class BookshelfServiceImplTest {
 
     @Test
     void testFindOrCreateBookshelves_invalidName() {
-        Bookshelf shelf = new Bookshelf("");
-        assertThrows(IllegalArgumentException.class, () -> bookshelfService.findOrCreateBookshelves(Collections.singletonList(shelf)));
+        List<Bookshelf> shelves = Collections.singletonList(new Bookshelf(""));
+        assertThrows(IllegalArgumentException.class, () -> bookshelfService.findOrCreateBookshelves(shelves));
     }
+
 } 
